@@ -1,0 +1,5 @@
+export const APP_WRITE_ID = "crm-sestem-nuxt";
+export const DB_ID = "crm-base";
+export const COLLECTION_DEALS = "deals";
+export const COLLECTION_CUSTOMERS = "customers";
+export const COLLECTION_COMMENTS = "comments";

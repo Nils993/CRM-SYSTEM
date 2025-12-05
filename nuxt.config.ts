@@ -5,9 +5,22 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["./app/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
-  modules: ["@nuxt/image", "@nuxt/icon", "@nuxt/fonts", "shadcn-nuxt"],
+  modules: ["@nuxt/image", "@nuxt/icon", "shadcn-nuxt", "@pinia/nuxt"],
   shadcn: {
-    prefix: "",
+    prefix: "UI",
     componentDir: "@/components/ui",
+  },
+  icon: {
+    mode: "svg",
+    aliases: {
+      logout: "line-md:logout",
+      Home: "radix-icons:dashboard",
+      Products: "ep:goods",
+      Payments: "ph:contactless-payment",
+      Orders: "fluent:receipt-28-regular",
+      Customers: "mingcute:group-line",
+      Feedback: "radix-icons:gear",
+      Help: "radix-icons:question-mark",
+    },
   },
 });
