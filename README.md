@@ -38,6 +38,6 @@ npm run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-time:2:52
+time:3:07
 
 сделать сервер
