@@ -21,7 +21,7 @@ onMounted(async () => {
   ></Loader>
   <div v-else class="grid grid-cols-16 h-full bg-gray-900">
     <Sidebar v-if="store.isAuth" class="col-span-3 h-full" />
-    <div class="col-span-13">
+    <div class="col-span-13 ml-4">
       <slot></slot>
     </div>
   </div>

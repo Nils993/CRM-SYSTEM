@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/vue-query";
 import { KANBAN_DATA } from "./kanban.data";
 import type { IDeal } from "~/typse/deals.types";
+import { COLLECTION_DEALS, DB_ID } from "@/utils/app.constants";
 export function useKanbanQuery() {
   return useQuery({
     queryKey: ["deals"],
@@ -10,14 +11,16 @@ export function useKanbanQuery() {
       const deals = data.documents as unknown as IDeal[];
       console.log(deals, newBoard);
       for (const deal of deals) {
-        const column = newBoard.find((col) => col.id === deal.status);
+        const column = newBoard.find((value) => {
+          return value.id === deal.status;
+        });
         if (column) {
           column.items.push({
             $createdAt: deal.$createdAt,
             id: deal.$id,
             name: deal.name,
             price: deal.price,
-            companyName: deal.customer.name,
+            companyName: "Разабратся с именем",
             status: column.name,
           });
         }
