@@ -9,12 +9,48 @@ import CardDescription from "~/components/ui/card/CardDescription.vue";
 import { convertCurrency } from "@/utils/convertCurrency";
 import CreateDeal from "~/components/kanban/CreateDeal.vue";
 import dayjs from "dayjs";
+import type { EnumStatus } from "~/typse/deals.types";
+import { useMutation } from "@tanstack/vue-query";
+import { COLLECTION_DEALS, DB_ID } from "@/utils/app.constants";
 useSeoMeta({
   title: "Home | CRM System",
 });
 const dragCard = ref<ICard | null>(null);
 const sourceCollumn = ref<IColumn | null>(null);
 const { data, isLoading, refetch } = useKanbanQuery();
+type typeMutationVariables = {
+  docId: string;
+  status?: EnumStatus;
+};
+
+const { mutate } = useMutation({
+  mutationKey: ["move card"],
+  mutationFn: async ({ docId, status }: typeMutationVariables) => {
+    try {
+      return await DB.updateDocument(DB_ID, COLLECTION_DEALS, docId, {
+        status,
+      });
+    } catch (error) {
+      console.error("Ошибка при обновлении сделки:", error);
+      throw error;
+    }
+  },
+  onSuccess: () => {
+    refetch();
+  },
+});
+function handleDragStart(card: ICard, column: IColumn) {
+  dragCard.value = card;
+  sourceCollumn.value = column;
+}
+function handleDragOver(event: DragEvent) {
+  event.preventDefault();
+}
+function handleDrop(targetColumn: IColumn) {
+  if (dragCard.value && sourceCollumn.value) {
+    mutate({ docId: dragCard.value.id, status: targetColumn.id });
+  }
+}
 </script>
 
 <template>
@@ -23,7 +59,12 @@ const { data, isLoading, refetch } = useKanbanQuery();
     <div v-if="isLoading" class="text-white">Loading...</div>
     <div v-else>
       <div class="grid grid-cols-5 gap-16">
-        <div v-for="(column, index) in data" :key="column.id">
+        <div
+          v-for="(column, index) in data"
+          :key="column.id"
+          @dragover="handleDragOver"
+          @drop="() => handleDrop(column)"
+        >
           <div class="rounded bg-gray-700 py-1 px-5 mb-2 text-center">
             {{ column.name }}
           </div>
@@ -32,8 +73,9 @@ const { data, isLoading, refetch } = useKanbanQuery();
             <Card
               v-for="item in column.items"
               :key="item.id"
-              class="mb-3 dark"
+              class="mb-5 dark"
               draggable="true"
+              @dragstart="() => handleDragStart(item, column)"
             >
               <CardHeader role="button">{{ item.name }}</CardHeader>
               <CardDescription>{{

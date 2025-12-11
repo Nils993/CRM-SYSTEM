@@ -40,7 +40,7 @@ const { mutate, isPending } = useMutation({
       return await DB.createDocument(DB_ID, COLLECTION_DEALS, uuid4(), data);
     } catch (error) {
       console.error("Ошибка при создании сделки:", error);
-      throw error; // чтобы useMutation знал о неудаче
+      throw error;
     }
   },
   onSuccess() {
