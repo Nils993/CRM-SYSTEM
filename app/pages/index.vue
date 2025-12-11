@@ -7,6 +7,7 @@ import CardFooter from "~/components/ui/card/CardFooter.vue";
 import CardHeader from "~/components/ui/card/CardHeader.vue";
 import CardDescription from "~/components/ui/card/CardDescription.vue";
 import { convertCurrency } from "@/utils/convertCurrency";
+import CreateDeal from "~/components/kanban/CreateDeal.vue";
 import dayjs from "dayjs";
 useSeoMeta({
   title: "Home | CRM System",
@@ -14,7 +15,6 @@ useSeoMeta({
 const dragCard = ref<ICard | null>(null);
 const sourceCollumn = ref<IColumn | null>(null);
 const { data, isLoading, refetch } = useKanbanQuery();
-console.log(data.value);
 </script>
 
 <template>
@@ -28,6 +28,7 @@ console.log(data.value);
             {{ column.name }}
           </div>
           <div>
+            <CreateDeal :refetch="refetch" :status="column.id"></CreateDeal>
             <Card
               v-for="item in column.items"
               :key="item.id"

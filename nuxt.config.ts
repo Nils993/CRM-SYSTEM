@@ -5,7 +5,18 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["./app/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
-  modules: ["@nuxt/image", "@nuxt/icon", "shadcn-nuxt", "@pinia/nuxt"],
+  modules: [
+    "@nuxt/image",
+    "@nuxt/icon",
+    "shadcn-nuxt",
+    "@pinia/nuxt",
+    [
+      "@vee-validate/nuxt",
+      {
+        autoImports: true,
+      },
+    ],
+  ],
   shadcn: {
     prefix: "UI",
     componentDir: "@/components/ui",
