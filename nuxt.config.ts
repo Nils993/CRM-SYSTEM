@@ -6,10 +6,13 @@ export default defineNuxtConfig({
   css: ["./app/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
   modules: [
+    "@nuxt/ui",
+    "@vueuse/nuxt",
     "@nuxt/image",
     "@nuxt/icon",
     "shadcn-nuxt",
     "@pinia/nuxt",
+
     [
       "@vee-validate/nuxt",
       {

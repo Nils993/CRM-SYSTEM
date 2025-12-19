@@ -6,6 +6,7 @@ import {
   DB_ID,
   COLLECTION_CUSTOMERS,
 } from "@/utils/app.constants";
+import type { ICard, IColumn } from "./kanban.types";
 export function useKanbanQuery() {
   return useQuery({
     queryKey: ["deals"],
@@ -24,7 +25,10 @@ export function useKanbanQuery() {
     },
     select(data) {
       const { deals, customersMap } = data;
-      const newBoard = [...KANBAN_DATA];
+      const newBoard = KANBAN_DATA.map((column) => ({
+        ...column,
+        items: <ICard[]>[],
+      }));
 
       for (const deal of deals) {
         const column = newBoard.find((col) => col.id === deal.status);

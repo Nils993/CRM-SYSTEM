@@ -12,6 +12,10 @@ import dayjs from "dayjs";
 import type { EnumStatus } from "~/typse/deals.types";
 import { useMutation } from "@tanstack/vue-query";
 import { COLLECTION_DEALS, DB_ID } from "@/utils/app.constants";
+import { generateColumnStyle } from "~/components/kanban/generate-gradient";
+import CardTitle from "~/components/ui/card/CardTitle.vue";
+import { useDealSlideStore } from "@/stores/dealslideStore";
+
 useSeoMeta({
   title: "Home | CRM System",
 });
@@ -36,6 +40,7 @@ const { mutate } = useMutation({
     }
   },
   onSuccess: () => {
+    console.log("Mutation successful, refetching...");
     refetch();
   },
 });
@@ -51,6 +56,7 @@ function handleDrop(targetColumn: IColumn) {
     mutate({ docId: dragCard.value.id, status: targetColumn.id });
   }
 }
+const dealStore = useDealSlideStore();
 </script>
 
 <template>
@@ -64,8 +70,12 @@ function handleDrop(targetColumn: IColumn) {
           :key="column.id"
           @dragover="handleDragOver"
           @drop="() => handleDrop(column)"
+          class="min-h-screen"
         >
-          <div class="rounded bg-gray-700 py-1 px-5 mb-2 text-center">
+          <div
+            class="rounded bg-gray-700 py-1 px-5 mb-2 text-center"
+            :style="generateColumnStyle(index, data?.length)"
+          >
             {{ column.name }}
           </div>
           <div>
@@ -76,11 +86,18 @@ function handleDrop(targetColumn: IColumn) {
               class="mb-5 dark"
               draggable="true"
               @dragstart="() => handleDragStart(item, column)"
+              role="button"
+              @click="dealStore.set(item)"
             >
-              <CardHeader role="button">{{ item.name }}</CardHeader>
-              <CardDescription>{{
-                convertCurrency(item.price)
-              }}</CardDescription>
+              <div>{{ item.name }} is rendered!</div>
+
+              <CardHeader
+                ><CardTitle> {{ item.name }}</CardTitle>
+                <CardDescription>{{
+                  convertCurrency(item.price)
+                }}</CardDescription>
+              </CardHeader>
+
               <CardContent>{{ item.companyName }}</CardContent>
               <CardFooter>{{
                 dayjs(item.$createdAt).format("DD MMMM YYYY")
@@ -89,6 +106,7 @@ function handleDrop(targetColumn: IColumn) {
           </div>
         </div>
       </div>
+      <KanbanSlideover></KanbanSlideover>
     </div>
   </div>
 </template>
