@@ -7,28 +7,18 @@ export const useDealSlideStore = defineStore("deal-slide", () => {
     card: null as ICard | null,
     isOpen: false,
   });
-
-  // Очистка состояния
   const clear = () => {
     state.card = null;
     state.isOpen = false;
   };
 
-  // Установка нового значения для card
   const set = (card: ICard) => {
     state.card = card;
     state.isOpen = true;
   };
-
-  // Переключение состояния isOpen
-  const toggle = () => {
-    state.isOpen = !state.isOpen;
-  };
-
   return {
     ...toRefs(state),
     clear,
     set,
-    toggle,
   };
 });

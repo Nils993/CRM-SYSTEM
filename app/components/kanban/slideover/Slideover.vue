@@ -2,9 +2,10 @@
 const store = useDealSlideStore();
 </script>
 <template>
-  <USlideover v-model:open="store.isOpen">
-    <template #header><KanbanSlideoverTop></KanbanSlideoverTop></template>
-    <KanbanSlideoverComments></KanbanSlideoverComments>
+  <USlideover class="bg-gray-800" v-model:open="store.isOpen">
+    <template #body
+      ><KanbanSlideoverTop></KanbanSlideoverTop>
+      <KanbanSlideoverComments></KanbanSlideoverComments
+    ></template>
   </USlideover>
 </template>
-<style scoped></style>

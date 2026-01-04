@@ -89,7 +89,7 @@ const dealStore = useDealSlideStore();
               role="button"
               @click="dealStore.set(item)"
             >
-              <div>{{ item.name }} is rendered!</div>
+              <div>{{ item.name }}</div>
 
               <CardHeader
                 ><CardTitle> {{ item.name }}</CardTitle>

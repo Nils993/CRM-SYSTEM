@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/vue-query";
 import { KANBAN_DATA } from "./kanban.data";
-import type { IDeal } from "~/typse/deals.types";
 import {
   COLLECTION_DEALS,
   DB_ID,
