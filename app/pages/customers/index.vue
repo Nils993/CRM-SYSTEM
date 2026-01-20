@@ -11,18 +11,19 @@ import TableCell from "~/components/ui/table/TableCell.vue";
 useSeoMeta({
   title: "Customers | CRM System",
 });
-const { data, isLoading } = useQuery({
+const { data, isLoading } = useQuery<ICustomer[]>({
   queryKey: ["customers"],
   queryFn: async () => {
     const customers = await DB.listDocuments(DB_ID, COLLECTION_CUSTOMERS);
-    return customers.documents as unknown as ICustomer;
+
+    return customers.documents as unknown as ICustomer[];
   },
 });
 console.log(data);
 </script>
 <template>
   <div>
-    <h1 class="font-bold text-2xl md-10">Наши клиенты (Вывести компонент)</h1>
+    <h1 class="font-bold text-2xl md-10">Наши клиенты</h1>
     <div v-if="isLoading">Loading...</div>
     <Table v-else>
       <TableHeader>
@@ -34,7 +35,7 @@ console.log(data);
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="customer in data" :key="customer.id">
+        <TableRow v-for="customer in data ?? []" :key="customer.$id">
           <TableCell>
             <NuxtLink :href="`/customers/edit/${customer.$id}`">
               <NuxtImg

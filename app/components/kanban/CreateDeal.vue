@@ -5,8 +5,20 @@ import { COLLECTION_DEALS, DB_ID } from "@/utils/app.constants";
 import type { IDeal } from "~/typse/deals.types";
 import Input from "../ui/input/Input.vue";
 import { useForm } from "vee-validate";
+import * as yup from "yup";
 const isOpenForm = ref(false);
-
+const validationSchema = yup.object({
+  name: yup.string().required("Введите наименование"),
+  price: yup
+    .number()
+    .typeError("Введите число")
+    .positive("Цена должна быть больше 0")
+    .required("Введите сумму"),
+  customers: yup.object({
+    email: yup.string().email("Неверный email").required("Введите email"),
+    name: yup.string().required("Введите компанию"),
+  }),
+});
 interface IDealFormState extends Pick<IDeal, "name" | "price"> {
   customers: {
     email: string;
@@ -23,11 +35,13 @@ const props = defineProps({
     type: Function,
   },
 });
-const { handleSubmit, defineField, handleReset } = useForm<IDealFormState>({
-  initialValues: {
-    status: props.status,
-  },
-});
+const { handleSubmit, defineField, handleReset, errors } =
+  useForm<IDealFormState>({
+    validationSchema,
+    initialValues: {
+      status: props.status,
+    },
+  });
 const [name, nameAttrs] = defineField("name");
 const [price, priceAttrs] = defineField("price");
 const [customerEmail, customerEmailAttrs] = defineField("customers.email");
@@ -54,7 +68,6 @@ const { mutate, isPending } = useMutation({
 
 const onSubmit = handleSubmit((values) => {
   mutate(values);
-  alert(JSON.stringify(values));
 });
 </script>
 <template>
@@ -77,7 +90,7 @@ const onSubmit = handleSubmit((values) => {
       />
     </button>
   </div>
-  <form v-if="isOpenForm" @submit="onSubmit" class="form">
+  <form v-if="isOpenForm" @submit="onSubmit" class="form mb-3">
     <Input
       placeholder="Наименование"
       v-model="name"
@@ -110,43 +123,27 @@ const onSubmit = handleSubmit((values) => {
     <button class="btn" :disabled="isPending">
       {{ isPending ? "Загрузка..." : "Добавить" }}
     </button>
+    <ul v-if="Object.keys(errors).length" class="mt-3 text-red-500 text-sm">
+      <li v-for="(error, field) in errors" :key="field">
+        {{ error }}
+      </li>
+    </ul>
   </form>
 </template>
 
 <style scoped>
-/* .input {
-  @apply border-[#161c26] mb-2 placeholder:text-[#748092] focus:border-border transition-colors;
-}
-
-
 .btn {
-  @apply text-xs border py-1 px-2 rounded border-[#161c26] hover:border-[#482c65] transition-colors text-[#aebed5] hover:text-white;
+  background-color: rgba(150, 61, 194, 0.3);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-
-
-.form {
-  @apply mb-3 block;
-  animation: show 0.3s ease-in-out;
+.btn:hover {
+  background-color: rgba(150, 61, 194, 0.5);
 }
-
-
-@keyframes show {
-  from {
-    border-color: #a252c83d; 
-    transform: translateY(-35px);
-    opacity: 0.4;
-  }
-
-  90% {
-    border-color: #a252c83d;
-  }
-
-  to {
-    border-color: transparent;
-    transform: translateY(0);
-    opacity: 1;
-  }
-} */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

@@ -1,35 +1,59 @@
-# Nuxt Minimal Starter
+CRM SYSTEM:
+сделать валидацию логина
+Используемый стэк:
+Vue 3 , Nuxt
+TypeScript
+Vue Query (TanStack Query) — эффективная работа с серверным состоянием, кеширование и синхронизация данных
+VeeValidate — валидация форм с поддержкой схем
+Tailwind CSS — утилитарный CSS-фреймворк для быстрой и гибкой стилизации
+shadcn/ui — готовые, переиспользуемые UI-компоненты с современным дизайном
+Backend:
+Appwrite — backend-as-a-service для работы с базой данных, аутентификацией и API
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Функциональность CRM System
+В рамках проекта реализован полноценный функционал для управления клиентами и сделками:
+🔐 Аутентификация пользователей.
+Реализована система логина с безопасной авторизацией через backend-сервис.
+🧾 Управление сделками
+Создание сделок
+Реализована возможность создавать новые сделки с указанием ключевых параметров.
+Подробный просмотр сделки
+При клике на сделку открывается детальная страница с полной информацией:
+Реализована возможность оставлять комментарии внутри сделки для фиксации договорённостей, уточнений.
+🧩 Kanban-доска со Drag & Drop
+Реализовано создание и перенос сделок между этапами (Входящие → На согласовании → В производстве → Произведено → К отгрузке) с помощью drag & drop.
+👥 Работа с клиентами
+Просмотр списка клиентов
+Редактирование данных клиента
 
-## Setup
+## Установка зависимостей
 
-Make sure to install dependencies:
+Убедитесь, что все зависимости установлены:
 
 ```bash
 # npm
 npm install
 ```
 
-## Development Server
+## Сервер разработки
 
-Start the development server on `http://localhost:3000`:
+Запустите сервер разработки по адресу `http://localhost:3000`:
 
 ```bash
 # npm
 npm run dev
 ```
 
-## Production
+## Продакшн
 
-Build the application for production:
+Соберите приложение для продакшн-окружения:
 
 ```bash
 # npm
 npm run build
 ```
 
-Locally preview production build:
+Локальный предпросмотр продакшн-сборки:
 
 ```bash
 # npm
@@ -37,5 +61,3 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-
-time:4:37

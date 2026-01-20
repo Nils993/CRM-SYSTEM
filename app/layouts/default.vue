@@ -15,13 +15,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loader
-    class="bg-gray-900 items-center justify-center"
-    v-if="isLoadingStore.isLoading"
-  ></Loader>
-  <div v-else class="grid grid-cols-16 h-full bg-gray-900">
+  <div class="grid grid-cols-16 bg-gray-900">
     <Sidebar v-if="store.isAuth" class="col-span-3 h-full" />
-    <div class="col-span-13 ml-4">
+    <div class="col-span-13 ml-4 h-screen">
       <slot></slot>
     </div>
   </div>

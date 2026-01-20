@@ -5,14 +5,14 @@ import type { ButtonVariants } from ".";
 import { Primitive } from "reka-ui";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from ".";
-/* @vue-ignore */
+
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"];
   size?: ButtonVariants["size"];
   class?: HTMLAttributes["class"];
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   as: "button",
 });
 </script>
@@ -22,7 +22,8 @@ const props = withDefaults(defineProps<Props>(), {
     data-slot="button"
     :as="as"
     :as-child="asChild"
-    :class="cn(buttonVariants({ variant, size }), props.class)"
+    v-bind="$attrs"
+    :class="cn(buttonVariants({ variant, size }))"
   >
     <slot />
   </Primitive>

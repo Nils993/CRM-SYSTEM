@@ -60,9 +60,10 @@ const dealStore = useDealSlideStore();
 </script>
 
 <template>
-  <div>
+  <div class="p-10">
     <h1 class="text-white text-2xl text-center font-bold mb-10">CRM SYSTEM</h1>
-    <div v-if="isLoading" class="text-white">Loading...</div>
+    <!-- <div v-if="isLoading" class="text-white">Loading...</div> -->
+    <Loader v-if="isLoading"></Loader>
     <div v-else>
       <div class="grid grid-cols-5 gap-16">
         <div
@@ -89,10 +90,8 @@ const dealStore = useDealSlideStore();
               role="button"
               @click="dealStore.set(item)"
             >
-              <div>{{ item.name }}</div>
-
               <CardHeader
-                ><CardTitle> {{ item.name }}</CardTitle>
+                ><CardTitle class="mb-3"> {{ item.name }}</CardTitle>
                 <CardDescription>{{
                   convertCurrency(item.price)
                 }}</CardDescription>

@@ -5,18 +5,25 @@ import {
   DB_ID,
   COLLECTION_CUSTOMERS,
 } from "@/utils/app.constants";
-import type { ICard, IColumn } from "./kanban.types";
+import type { ICard } from "./kanban.types";
+import type { ICustomer } from ".././../typse/deals.types";
 export function useKanbanQuery() {
   return useQuery({
     queryKey: ["deals"],
     async queryFn() {
       const dealsResponse = await DB.listDocuments(DB_ID, COLLECTION_DEALS);
       const deals = dealsResponse.documents;
-      const customerIds = [...new Set(deals.map((deal) => deal.customers))];
+      const customerIds = [
+        ...new Set(
+          deals
+            .map((deal) => deal.customers)
+            .filter((id): id is string => Boolean(id))
+        ),
+      ];
       const customersArray = await Promise.all(
         customerIds.map((id) => DB.getDocument(DB_ID, COLLECTION_CUSTOMERS, id))
       );
-      const customersMap = {};
+      const customersMap: Record<string, ICustomer> = {};
       for (const customer of customersArray) {
         customersMap[customer.$id] = customer;
       }

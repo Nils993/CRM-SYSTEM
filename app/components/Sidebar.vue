@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const user = defineProps<{ name: string }>();
+// const user = defineProps<{ name: string }>();
 import Menu from "./Menu.vue";
 const isLoadingStore = useIsLoadingStore();
 const store = useAuthStore();
@@ -14,7 +14,7 @@ const logout = async () => {
 </script>
 <template>
   <aside
-    class="px-5 py-10 h-screen w-full relative bg-gray-800 text-white text-xl"
+    class="px-5 py-10 h-screen w-full sticky top-0 bg-gray-800 text-white text-xl"
   >
     <NuxtLink to="/" class="mb-10 block">
       <NuxtImg src="/logo.svg" alt="" width="100px" class="mx-auto"></NuxtImg>
